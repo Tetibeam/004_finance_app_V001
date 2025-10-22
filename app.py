@@ -1,10 +1,11 @@
 from flask import Flask, render_template
 from utils.data_loarder import get_total_assets
+import pandas as pd
 import plotly.express as px
 
 DB_PATH_ASSET = "database/asset.db"
 DB_PATH_BALANCE = "database/balance.db"
-DB_PATH_TARGE = "database/target.db"
+DB_PATH_TARGET = "database/target.db"
 
 app = Flask(__name__)
 
@@ -14,10 +15,10 @@ def index():
 
 @app.route("/dashboard")
 def dashboard():
-    pivot = get_total_assets(db_path=DB_PATH_ASSET)
-    df = pivot.sum(axis=1)
-    fig = px.line(df, x=df.index, y=df.values, title="総資産推移", labels={"x": "日付", "y": "総資産"})
-    fig.update_layout(xaxis_rangeslider_visible=True)
+    pivot = get_total_assets(db_path=DB_PATH_ASSET).sum(axis=1)
+    pivot_target = get_total_assets(db_path=DB_PATH_TARGET).sum(axis=1)
+    df = pd.concat([pivot,pivot_target],axis=1, keys=["実績", "目標"])
+    fig = px.line(df, x=df.index, y=df.columns, title="総資産推移", labels={"date": "日付", "value": "総資産","variable":""})
     graph_html = fig.to_html(full_html=False)
     return render_template("dashboard.html", graph_html=graph_html)
 
