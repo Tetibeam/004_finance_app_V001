@@ -1,5 +1,16 @@
 {% extends "base.html" %}
+{% block title %}ダッシュボード{% endblock %}
 {% block content %}
-<h2>総資産推移</h2>
-{{ graph_html | safe }}
+  <h1>ダッシュボード</h1>
+
+  <form method="get" action="{{ url_for('dashboard') }}">
+    <label>表示するグラフ:</label>
+    <select name="type" onchange="this.form.submit()">
+      <option value="assets" {% if selected_type == 'assets' %}selected{% endif %}>総資産推移</option>
+      <option value="income" {% if selected_type == 'income' %}selected{% endif %}>収入推移</option>
+      <option value="expense" {% if selected_type == 'expense' %}selected{% endif %}>支出推移</option>
+    </select>
+  </form>
+
+  <div>{{ graph_html|safe }}</div>
 {% endblock %}

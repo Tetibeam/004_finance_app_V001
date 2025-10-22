@@ -1,0 +1,72 @@
+/* 全体レイアウト */
+body {
+  font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+  margin: 0;
+  background: #f5f7fa;
+  color: #333;
+}
+
+/* ナビバー */
+.navbar {
+  background: #2b3a67;
+  color: white;
+  padding: 12px 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar .container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.navbar a {
+  color: #ddd;
+  margin-left: 20px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbar a:hover,
+.navbar a.active {
+  color: #fff;
+  border-bottom: 2px solid #fff;
+}
+
+/* メイン */
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 30px auto;
+  background: white;
+  padding: 20px 30px;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+/* フォーム */
+form {
+  margin-bottom: 20px;
+}
+
+select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+/* フッター */
+.footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+  padding: 20px;
+}
