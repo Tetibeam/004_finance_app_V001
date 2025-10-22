@@ -1,15 +1,59 @@
-{% extends "base.html" %}
-{% block title %}ダッシュボード{% endblock %}
-{% block content %}
-    <form id="graph-form">
-    <select name="type" id="graph-type">
-        <option value="assets" {% if selected_type == 'assets' %}selected{% endif %}>総資産推移</option>
-        <option value="income" {% if selected_type == 'income' %}selected{% endif %}>収入推移</option>
-        <option value="expense" {% if selected_type == 'expense' %}selected{% endif %}>支出推移</option>
-    </select>
-    </form>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>Finance Dashboard</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+      background: #121212;
+      color: #e0e0e0;
+    }
+    .sidebar {
+      position: fixed;
+      width: 15%;
+      height: 100vh;
+      background: #1f1f1f;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+    .sidebar h1 { font-size: 1.2rem; margin-bottom: 20px; }
+    .sidebar a { display: block; margin: 10px 0; color: #ccc; text-decoration: none; }
+    .sidebar a:hover { color: #fff; }
+    .main {
+      margin-left: 15%;
+      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .graph-container {
+      background: #1e1e1e;
+      padding: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+    }
+  </style>
+</head>
+<body>
 
-    <div id="graph-container">
-    {{ graph_html|safe }}
-    </div>
-{% endblock %}
+<div class="sidebar">
+  <h1>💰 Finance App</h1>
+  <a href="/dashboard">ダッシュボード</a>
+  <!-- 今後リンク追加 -->
+</div>
+
+<div class="main">
+  <div class="graph-container">{{ graphs['assets']|safe }}</div>
+  <div class="graph-container">{{ graphs['return']|safe }}</div>
+  <div class="graph-container">{{ graphs['custom1']|safe }}</div>
+  <div class="graph-container">{{ graphs['income']|safe }}</div>
+  <div class="graph-container">{{ graphs['expense']|safe }}</div>
+  <div class="graph-container">{{ graphs['custom2']|safe }}</div>
+</div>
+
+</body>
+</html>
