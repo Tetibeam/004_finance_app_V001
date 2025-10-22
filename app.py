@@ -21,7 +21,12 @@ def dashboard():
     pivot = get_total_assets(db_path=DB_PATH_ASSET).sum(axis=1)
     pivot_target = get_total_assets(db_path=DB_PATH_TARGET).sum(axis=1)
     df = pd.concat([pivot,pivot_target],axis=1, keys=["実績", "目標"])
-    fig = px.line(df, x=df.index, y=df.columns, title="総資産推移", labels={"date": "日付", "value": "総資産","variable":""})
+    fig = px.line(df, x=df.index, y=df.columns, title="総資産推移", labels={"date": "日付", "value": "総資産","variable":""},template="plotly_dark")
+    fig.update_xaxes(tickformat="%y/%m/%d")
+    fig.update_layout(
+        autosize=True,
+        margin=dict(l=20, r=20, t=35, b=40)  # 余白調整
+    )
     graph_html = fig.to_html(full_html=False)
     return render_template("dashboard.html", graph_html=graph_html)
 
