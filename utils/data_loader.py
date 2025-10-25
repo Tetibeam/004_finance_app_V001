@@ -26,7 +26,6 @@ def load_csv_to_db(csv_files: list, db_path):
     conn.close()
     print("🎉 すべてのCSVを1つのDBに統合しました！")
 
-
 def get_df_from_db(db_path: str, table_name: str, index_col: str, columns_col, values_col,
                    aggfunc="sum", where_clause=None, set_index: bool=False):
     """
@@ -74,42 +73,4 @@ def get_df_from_db(db_path: str, table_name: str, index_col: str, columns_col, v
 
     return grouped.set_index(index_col) if set_index else grouped
 
-
-"""
-def get_pivot_from_db(db_path: str, table_name: str,
-                      index_col: str or list, columns_col: str or list, values_col: str or list,
-                      aggfunc="sum", where_clause: str=None):
-"""
-"""
-    指定されたデータベースからデータを読み込み、ピボットテーブルを作成する。
-
-    Args:
-        db_path (str): SQLiteデータベースのパス。
-        table_name (str): データを取得するテーブル名。
-        index_col (str or list): ピボットテーブルのインデックスとして使用する列名。
-        columns_col (str or list): ピボットテーブルのカラムとして使用する列名。
-        values_col (str or list): ピボットテーブルの集計値として使用する列名。
-        aggfunc (str, optional): 集計関数。デフォルトは"sum"。
-        where_clause (str, optional): データをフィルタリングするためのWHERE句。デフォルトはNone。
-
-    Returns:
-        pd.DataFrame: 作成されたピボットテーブル。
-
-"""
-"""
-    conn = sqlite3.connect(db_path)
-    query = f'SELECT * FROM "{table_name}"'
-    if where_clause:
-        query += f" WHERE {where_clause}"
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-
-    # --- 日付列を自動変換（index_colが日付の場合を想定） ---
-    if isinstance(index_col, str):
-        if any(key in index_col.lower() for key in ["date", "日", "年月", "timestamp"]):
-            df[index_col] = pd.to_datetime(df[index_col], errors="coerce")
-
-    pivot = df.pivot_table(index=index_col, columns=columns_col, values=values_col, aggfunc=aggfunc)
-    return pivot
-"""
 

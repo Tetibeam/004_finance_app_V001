@@ -1,32 +1,48 @@
 from flask import Flask, render_template
-import utils.data_visualize as dv
-import yaml
-import pandas as pd
-import plotly.express as px
-import utils.config as cfg
+from utils.read_from_db import get_asset_and_profit_dashboard, get_balance_dashboard
+from utils.config import load_settings
+import utils.visualize_dashboard as viz
+from utils.calculation import cal_general_special_balance_dashboard
+import os
 
-#DB_PATH_ASSET = "database/asset.db"
-#DB_PATH_BALANCE = "database/balance.db"
-#DB_PATH_TARGET = "database/target.db"
-
-settings = cfg.load_settings("setting.yaml")
+settings = load_settings("setting.yaml")
+DB_PATH_FINANCE = os.path.join(    settings["database_path"],"",settings["database"]["finance"])
 
 app = Flask(__name__)
 
 @app.route("/")
 def index():
-    # 今回はダッシュボードがトップ
+    # ダッシュボードがトップ
     return dashboard()
 
 @app.route("/dashboard")
 def dashboard():
+    graphs = {}
+    df_asset_profit = get_asset_and_profit_dashboard(DB_PATH_FINANCE) # DBから資産データを取得、整形
     # 1. 総資産推移
-    # 2. トータルリターン推移
-    # 3. 任意グラフ（後で追加可能）
-    # 4. 一般収支推移
-    # 5. 特別収支推移
-    # 6. 任意グラフ（後で追加可能）
+    fig = viz.display_total_assets(df_asset_profit)
+    graphs["assets"] = fig.to_html(full_html=False)
     
+    # 2. トータルリターン推移
+    fig = viz.display_total_returns(df_asset_profit)
+    graphs["returns"] = fig.to_html(full_html=False)
+    
+    df_balance = get_balance_dashboard(DB_PATH_FINANCE)
+    df_general = cal_general_special_balance_dashboard(df_balance, "一般収支")
+    df_special = cal_general_special_balance_dashboard(df_balance, "特別収支")
+    # 3. 一般収入・支出
+    fig = viz.display_general_income_expenditure(df_general)
+    graphs["general_income_expenditure"] = fig.to_html(full_html=False)
+    # 4. 一般収支
+    fig = viz.display_general_balance(df_general)
+    graphs["general_balance"] = fig.to_html(full_html=False)
+    # 5. 特別収入・支出
+    fig = viz.display_special_income_expenditure(df_special)
+    graphs["special_income_expenditure"] = fig.to_html(full_html=False)
+    # 6. 特別収支
+    fig = viz.display_special_balance(df_special)
+    graphs["special_balance"] = fig.to_html(full_html=False)
+
     return render_template("dashboard.html", graphs=graphs)
     """
     pivot = get_total_assets(db_path=DB_PATH_ASSET).sum(axis=1)
