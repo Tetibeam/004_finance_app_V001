@@ -1,5 +1,9 @@
 import pandas as pd
 
+def cal_total_return_target_dashboard(df: pd.DataFrame):
+    df['トータルリターン_目標'] = df['トータルリターン_目標'].cumsum()
+    return df
+
 def cal_general_special_balance_dashboard(df: pd.DataFrame, balance_type: str):
     """
     指定されたデータフレームと収支タイプに基づいて、一般収支または特別収支のダッシュボードデータを計算する。

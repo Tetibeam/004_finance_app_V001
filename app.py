@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from utils.read_from_db import get_asset_and_profit_dashboard, get_balance_dashboard
 from utils.config import load_settings
 import utils.visualize_dashboard as viz
-from utils.calculation import cal_general_special_balance_dashboard
+from utils.calculation import cal_general_special_balance_dashboard,cal_total_return_target_dashboard
 import os
 import plotly.io as pio
 
@@ -20,6 +20,7 @@ def index():
 def dashboard():
     graphs = {}
     df_asset_profit = get_asset_and_profit_dashboard(DB_PATH_FINANCE) # DBから資産データを取得、整形
+    df_asset_profit = cal_total_return_target_dashboard(df_asset_profit)
     # 1. 総資産推移
     fig = viz.display_total_assets(df_asset_profit)
     graphs["assets"] = pio.to_html(fig, full_html=False, include_plotlyjs='cdn')
