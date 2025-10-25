@@ -29,6 +29,23 @@ def load_csv_to_db(csv_files: list, db_path):
 
 def get_df_from_db(db_path: str, table_name: str, index_col: str, columns_col, values_col,
                    aggfunc="sum", where_clause=None, set_index: bool=False):
+    """
+    指定されたデータベースからデータを読み込み、DataFrameを返す。
+
+    Args:
+        db_path (str): SQLiteデータベースのパス。
+        table_name (str): データを取得するテーブル名。
+        index_col (str): DataFrameのインデックス（またはgroupbyの第一引数）として使用する列名。
+        columns_col (str or list, optional): groupbyの第二引数として使用する列名。
+                                             Noneの場合、index_colとvalues_colのみでgroupbyを行う。
+        values_col (str or list): 集計対象の列名。
+        aggfunc (str, optional): 集計関数。デフォルトは"sum"。
+        where_clause (str, optional): データをフィルタリングするためのWHERE句。デフォルトはNone。
+        set_index (bool, optional): index_col をDataFrameのインデックスとして設定するかどうか。デフォルトはFalse。
+
+    Returns:
+        pd.DataFrame: 処理されたDataFrame。
+    """
     # --- データ読み込み ---
     conn = sqlite3.connect(db_path)
     query = f'SELECT * FROM "{table_name}"'
@@ -95,3 +112,4 @@ def get_pivot_from_db(db_path: str, table_name: str,
     pivot = df.pivot_table(index=index_col, columns=columns_col, values=values_col, aggfunc=aggfunc)
     return pivot
 """
+
