@@ -19,36 +19,37 @@ body {
     width: 15%;
     height: 100vh;
     background: #1f1f1f;
-    padding: 20px;
+    padding: 2vh;
     box-sizing: border-box;
 }
-.sidebar h1 { font-size: 1.0rem; margin-bottom: 10px; }
-.sidebar a { display: block; margin: 10px 0; color: #ccc; text-decoration: none; }
+.sidebar h1 { font-size: 3vh; margin-bottom: 10px; }
+.sidebar a { display: block; margin: 2vh 0; color: #ccc; text-decoration: none; }
 .sidebar a:hover { color: #fff; }
 
 /* メインコンテンツ */
 .main {
     margin-left: 15%; /* サイドバー分の余白 */
-    padding: 10px;
+    padding: 1vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 10px;  /* 最小限の隙間 */
+    gap: 1vh;  /* 最小限の隙間 */
 }
 
 .graph-container {
     background: #1e1e1e;
-    padding: 0px;
-    margin: 0px;
+    padding: 0vh;
+    margin: 0vh;
     border-radius: 6px;
 }
 
 .graph-container > div {
     width: 100% !important;
-    height: 234px !important;
+    height: 48.5vh !important;
 }
 </style>
 </head>
+
 <body>
 
 <div class="sidebar">
@@ -59,11 +60,12 @@ body {
 
 <div class="main">
   {% for key in ["assets", "general_income_expenditure", "special_income_expenditure", "returns", "general_balance", "special_balance"] %}
-    <div class="graph-container">
+    <div class="graph-container" id="graph-{{ key }}">
       {{ graphs[key]|safe }}
     </div>
   {% endfor %}
 </div>
+
 
 </body>
 </html>

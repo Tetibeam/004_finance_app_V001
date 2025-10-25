@@ -4,12 +4,14 @@ import pandas as pd
 def common_setting(fig):
     fig.update_xaxes(tickformat="%y/%m/%d")
     fig.update_layout(
+        # サイズ調整
         autosize=True,
-        width=290,
-        height=234,
+        #width=290,
+        #height=234,
+
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        margin=dict(l=0,r=0,t=50,b=20),
+        margin=dict(l=5,r=5,t=50,b=20),
         title_font=dict(size=12),            # タイトル文字サイズ
         font=dict(size=8),                  # 軸ラベル・凡例などの共通サイズ
         legend=dict(

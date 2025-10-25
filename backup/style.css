@@ -1,0 +1,67 @@
+/* 全体レイアウト */
+body {
+  font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
+  margin: 0;
+  background: #121212; /* ダーク背景 */
+  color: #e0e0e0;     /* 明るめ文字 */
+}
+
+/* サイドバー */
+.sidebar {
+  position: fixed;
+  width: 15%;
+  height: 100vh;
+  background: #1f1f1f;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.sidebar h1 {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.sidebar a {
+  display: block;
+  margin: 10px 0;
+  color: #ccc;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
+  color: #fff;
+}
+
+/* メイングラフエリア */
+.main {
+  margin-left: 15%; /* サイドバー分の余白 */
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 234px; /* 各グラフの高さ */
+  gap: 4px;              /* グラフ間隔 */
+  box-sizing: border-box;
+}
+
+/* 個別グラフコンテナ */
+.graph-container {
+  background-color: #1e1e1e;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+  padding: 0px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Plotly iframe 調整 */
+.graph-container iframe,
+.graph-container > div {
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: none !important;
+  display: block;
+}
