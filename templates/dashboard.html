@@ -1,92 +1,38 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>Finance Dashboard</title>
-<link rel="stylesheet" href="/static/style.css">
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Finance App{% endblock %}
+
+{% block head_extra %}
 <style>
-body {
-    margin: 0;
-    font-family: "Segoe UI", "Hiragino Sans", "Meiryo", sans-serif;
-    background: #121212;
-    color: #e0e0e0;
-}
-
-/* サイドバー */
-.sidebar {
-    position: fixed;
-    width: 15%;
-    height: 100vh;
-    background: #1f1f1f;
-    padding: 2vh;
-    box-sizing: border-box;
-}
-.sidebar h1 { font-size: 3vh; margin-bottom: 10px; }
-.sidebar a { display: block; margin: 2vh 0; color: #ccc; text-decoration: none; }
-.sidebar a:hover { color: #fff; }
-
-/* メインコンテンツ */
 .main {
-    margin-left: 15%;
-    padding: 1vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
     gap: 1vh;
 }
-
-.graph-container {
-    background: #1e1e1e;
-    padding: 0;
-    margin: 0;
-    border-radius: 6px;
-}
-
 .graph-container > div {
-    width: 100% !important;
     height: 44vh !important;
-    margin: 0;
-    padding: 0;
 }
-
 .graph-title {
-    padding: 0;
-    margin: 0;
-    margin-bottom: 0vh;
-    text-align: left;
     font-size: 3vh;
-    color: #ffffff;
+    text-align: left;
+    margin: 0 0 0.5vh 0.5vh; /* 上0, 右0, 下0.5vh, 左0 */
 }
 .graph-title a {
-    color: inherit;        /* aタグも白色を継承 */
+    color: inherit;
     text-decoration: none;
 }
-.graph-title a:hover {
-    text-decoration: underline;  /* ホバー時だけ下線 */
-}
-
-
+.graph-title a:hover { text-decoration: underline; }
 </style>
-</head>
+{% endblock %}
 
-<body>
-<!-- サイドバー -->
-<div class="sidebar">
-  <h1>💰 Finance App</h1>
-  <a href="/dashboard">ダッシュボード</a>
-</div>
-
-<div class="main">
-  {% for key, title in graphs_info.items() %}
-    <div class="graph-container">
-      <h2 class="graph-title">
-        <a href="/graph/{{ key }}">{{ title }}</a>
-      </h2>
-      {{ graphs[key]|safe }}
-    </div>
-  {% endfor %}
-</div>
-</body>
-
-</html>
+{% block content %}
+{% for key, title in graphs_info.items() %}
+  <div class="graph-container">
+    <h2 class="graph-title">
+      <a href="/graph/{{ key }}">{{ title }}</a>
+    </h2>
+    {{ graphs[key]|safe }}
+  </div>
+{% endfor %}
+{% endblock %}
