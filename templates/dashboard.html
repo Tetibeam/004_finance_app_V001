@@ -28,103 +28,65 @@ body {
 
 /* メインコンテンツ */
 .main {
-    margin-left: 15%; /* サイドバー分の余白 */
+    margin-left: 15%;
     padding: 1vh;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    gap: 1vh;  /* 最小限の隙間 */
+    gap: 1vh;
 }
 
 .graph-container {
     background: #1e1e1e;
-    padding: 0vh;
-    margin: 0vh;
+    padding: 0;
+    margin: 0;
     border-radius: 6px;
 }
 
 .graph-container > div {
     width: 100% !important;
-    height: 48.5vh !important;
+    height: 44vh !important;
+    margin: 0;
+    padding: 0;
 }
+
+.graph-title {
+    padding: 0;
+    margin: 0;
+    margin-bottom: 0vh;
+    text-align: left;
+    font-size: 3vh;
+    color: #ffffff;
+}
+.graph-title a {
+    color: inherit;        /* aタグも白色を継承 */
+    text-decoration: none;
+}
+.graph-title a:hover {
+    text-decoration: underline;  /* ホバー時だけ下線 */
+}
+
+
 </style>
 </head>
 
 <body>
-
+<!-- サイドバー -->
 <div class="sidebar">
   <h1>💰 Finance App</h1>
   <a href="/dashboard">ダッシュボード</a>
 </div>
 
 <div class="main">
-  {% for key in ["assets", "general_income_expenditure", "special_income_expenditure", "returns", "general_balance", "special_balance"] %}
-    <div class="graph-container" id="graph-{{ key }}">
+  {% for key, title in graphs_info.items() %}
+    <div class="graph-container">
+      <h2 class="graph-title">
+        <a href="/graph/{{ key }}">{{ title }}</a>
+      </h2>
       {{ graphs[key]|safe }}
     </div>
   {% endfor %}
 </div>
-
-<script>
-// グラフのフォントサイズを親コンテナに合わせて調整
-function resizeFonts(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    // Plotly の div は container の中にある最初の div
-    const gd = container.querySelector('div');
-    if (!gd) return;
-
-    const w = gd.offsetWidth;
-    const h = gd.offsetHeight;
-
-    // 基準サイズに対するスケール計算
-    const scale = Math.min(w / 600, h / 400);
-
-    Plotly.relayout(gd, {
-        'title.font.size': 16 * scale,
-        'xaxis.title.font.size': 12 * scale,
-        'yaxis.title.font.size': 12 * scale,
-        'xaxis.tickfont.size': 10 * scale,
-        'yaxis.tickfont.size': 10 * scale,
-        'legend.font.size': 10 * scale
-    });
-}
-
-// グラフIDリスト
-const graphIds = ["graph-assets","graph-general_income_expenditure","graph-special_income_expenditure","graph-returns","graph-general_balance","graph-special_balance"];
-
-// 初期ロード時
-window.addEventListener('load', () => {
-    graphIds.forEach(id => {
-        const container = document.getElementById(id);
-        if (!container) return;
-
-        const gd = container.querySelector('div');
-        if (!gd) return;
-
-        // CSS枠に合わせてグラフをリサイズ
-        Plotly.Plots.resize(gd);
-
-        // フォント調整
-        resizeFonts(id);
-    });
-});
-
-// ウィンドウリサイズ時も同様
-window.addEventListener('resize', () => {
-    graphIds.forEach(id => {
-        const container = document.getElementById(id);
-        if (!container) return;
-
-        const gd = container.querySelector('div');
-        if (!gd) return;
-
-        Plotly.Plots.resize(gd);
-        resizeFonts(id);
-    });
-});
-</script>
-
 </body>
+
 </html>

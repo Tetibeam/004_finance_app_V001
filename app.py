@@ -25,11 +25,11 @@ def dashboard():
 
     # 1. 総資産推移
     fig = viz.display_total_assets(df_asset_profit)
-    graphs["assets"] = viz.write_html(fig)
+    graphs["assets"] = viz.write_html(fig,"assets")
 
     # 2. トータルリターン推移
     fig = viz.display_total_returns(df_asset_profit)
-    graphs["returns"]  = viz.write_html(fig)
+    graphs["returns"]  = viz.write_html(fig,"returns")
 
     df_balance = get_balance_dashboard(DB_PATH_FINANCE)
     df_general = cal_general_special_balance_dashboard(df_balance, "一般収支")
@@ -37,22 +37,31 @@ def dashboard():
 
     # 3. 一般収入・支出
     fig = viz.display_general_income_expenditure(df_general)
-    graphs["general_income_expenditure"] = viz.write_html(fig)
+    graphs["general_income_expenditure"] = viz.write_html(fig,"general_income_expenditure")
 
     # 4. 一般収支
     fig = viz.display_general_balance(df_general)
-    graphs["general_balance"]  = viz.write_html(fig)
+    graphs["general_balance"]  = viz.write_html(fig,"general_balance")
 
     # 5. 特別収入・支出
     fig = viz.display_special_income_expenditure(df_special)
-    graphs["special_income_expenditure"]  = viz.write_html(fig)
+    graphs["special_income_expenditure"]  = viz.write_html(fig,"special_income_expenditure")
 
     # 6. 特別収支
     fig = viz.display_special_balance(df_special)
     #graphs["special_balance"] = fig.to_html(full_html=False)
-    graphs["special_balance"]  = viz.write_html(fig)
+    graphs["special_balance"]  = viz.write_html(fig,"special_balance")
 
-    return render_template("dashboard.html", graphs=graphs)
+    # グラフタイトルとキーを辞書で管理
+    graphs_info = {
+        "assets": "🤑 総資産推移",
+        "general_income_expenditure": "🤑 一般収入・支出",
+        "special_income_expenditure": "🤑 特別収入・支出",
+        "returns": "🤑 トータルリターン",
+        "general_balance": "🤑 一般収支",
+        "special_balance": "🤑 特別収支"
+    }
+    return render_template("dashboard.html", graphs=graphs, graphs_info=graphs_info)
 
 if __name__ == "__main__":
     app.run(debug=True)
