@@ -31,7 +31,3 @@ body {
 .sidebar a:hover {
   color: #fff;
 }
-.graph-container > div {
-  width:100%;
-  height:48.5vh;
-}

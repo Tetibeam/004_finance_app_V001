@@ -13,7 +13,6 @@ def create_app():
     for key, value in settings.items():
         app.config[key.upper()] = value  # 大文字にしておくのが慣例
     #app.config[key.upper()] = value  # 大文字にしておくのが慣例app.config["DB_PATH_FINANCE"] = settings["database_path"] + "/" + settings["database"]["finance"]
-    print(app.config)
 
     # Blueprint登録
     app.register_blueprint(dashboard_bp)
