@@ -9,6 +9,8 @@ import os
 settings = load_settings("setting.yaml")
 DB_PATH_FINANCE = os.path.join(    settings["database_path"],"",settings["database"]["finance"])
 
+graphs = {}
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -18,7 +20,7 @@ def index():
 
 @app.route("/dashboard")
 def dashboard():
-    graphs = {}
+    global graphs
 
     df_asset_profit = get_asset_and_profit_dashboard(DB_PATH_FINANCE) # DBから資産データを取得、整形
     df_asset_profit = cal_total_return_target_dashboard(df_asset_profit)
@@ -52,6 +54,7 @@ def dashboard():
     #graphs["special_balance"] = fig.to_html(full_html=False)
     graphs["special_balance"]  = viz.write_html(fig,"special_balance")
 
+
     # グラフタイトルとキーを辞書で管理
     graphs_info = {
         "assets": "🤑 総資産推移",
@@ -62,6 +65,26 @@ def dashboard():
         "special_balance": "🤑 特別収支"
     }
     return render_template("dashboard.html", graphs=graphs, graphs_info=graphs_info)
+
+@app.route("/graph/<key>")
+def show_graph(key):
+    graphs_info = {
+        "assets": "🤑 総資産推移",
+        "general_income_expenditure": "🤑 一般収入・支出",
+        "special_income_expenditure": "🤑 特別収入・支出",
+        "returns": "🤑 トータルリターン",
+        "general_balance": "🤑 一般収支",
+        "special_balance": "🤑 特別収支"
+    }
+
+    # key が存在しない場合は404
+    if key not in graphs_info:
+        abort(404)
+
+    title = graphs_info[key]
+    fig_html = graphs[key]  # すでに生成済みのHTMLを取得する想定
+
+    return render_template("graph_detail.html", title=title, fig_html=fig_html)
 
 if __name__ == "__main__":
     app.run(debug=True)

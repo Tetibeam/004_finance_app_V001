@@ -28,17 +28,6 @@ def common_setting(fig):
 
     return fig
 
-def write_html(fig, id: str):
-    fig_html = pio.to_html(
-        fig,
-        full_html=False,
-        include_plotlyjs='cdn',
-        config = {"responsive": True},
-        div_id = id
-    )
-    return fig_html
-
-
 def display_total_assets(df):
     fig = px.line(
         df, x=df.index, y=["資産額_実績", "資産額_目標"],template="plotly_dark",
@@ -121,3 +110,12 @@ def display_special_balance(df):
     fig = common_setting(fig)
     return fig
 
+def write_html(fig, id: str):
+    fig_html = pio.to_html(
+        fig,
+        full_html=False,
+        include_plotlyjs='cdn',
+        config = {"responsive": True},
+        div_id = id
+    )
+    return fig_html
