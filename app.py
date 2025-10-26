@@ -1,3 +1,31 @@
+from flask import Flask
+from utils.config import load_settings
+from modules.routes_dashboard import dashboard_bp
+from modules.routes_graph import graph_bp
+
+def create_app():
+    app = Flask(__name__)
+
+    # YAML設定を読み込み
+    settings = load_settings("setting.yaml")
+
+    # まとめて Flask に登録
+    for key, value in settings.items():
+        app.config[key.upper()] = value  # 大文字にしておくのが慣例
+    #app.config[key.upper()] = value  # 大文字にしておくのが慣例app.config["DB_PATH_FINANCE"] = settings["database_path"] + "/" + settings["database"]["finance"]
+    print(app.config)
+
+    # Blueprint登録
+    app.register_blueprint(dashboard_bp)
+    app.register_blueprint(graph_bp)
+
+    return app
+
+if __name__ == "__main__":
+    app = create_app()
+    app.run(debug=True)
+
+"""
 from flask import Flask, render_template
 from utils.read_from_db import get_asset_and_profit_dashboard, get_balance_dashboard
 from utils.config import load_settings
@@ -88,3 +116,4 @@ def show_graph(key):
 
 if __name__ == "__main__":
     app.run(debug=True)
+"""
