@@ -55,7 +55,6 @@ body {
 <div class="sidebar">
   <h1>💰 Finance App</h1>
   <a href="/dashboard">ダッシュボード</a>
-  <!-- 今後リンク追加 -->
 </div>
 
 <div class="main">
@@ -66,6 +65,66 @@ body {
   {% endfor %}
 </div>
 
+<script>
+// グラフのフォントサイズを親コンテナに合わせて調整
+function resizeFonts(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Plotly の div は container の中にある最初の div
+    const gd = container.querySelector('div');
+    if (!gd) return;
+
+    const w = gd.offsetWidth;
+    const h = gd.offsetHeight;
+
+    // 基準サイズに対するスケール計算
+    const scale = Math.min(w / 600, h / 400);
+
+    Plotly.relayout(gd, {
+        'title.font.size': 16 * scale,
+        'xaxis.title.font.size': 12 * scale,
+        'yaxis.title.font.size': 12 * scale,
+        'xaxis.tickfont.size': 10 * scale,
+        'yaxis.tickfont.size': 10 * scale,
+        'legend.font.size': 10 * scale
+    });
+}
+
+// グラフIDリスト
+const graphIds = ["graph-assets","graph-general_income_expenditure","graph-special_income_expenditure","graph-returns","graph-general_balance","graph-special_balance"];
+
+// 初期ロード時
+window.addEventListener('load', () => {
+    graphIds.forEach(id => {
+        const container = document.getElementById(id);
+        if (!container) return;
+
+        const gd = container.querySelector('div');
+        if (!gd) return;
+
+        // CSS枠に合わせてグラフをリサイズ
+        Plotly.Plots.resize(gd);
+
+        // フォント調整
+        resizeFonts(id);
+    });
+});
+
+// ウィンドウリサイズ時も同様
+window.addEventListener('resize', () => {
+    graphIds.forEach(id => {
+        const container = document.getElementById(id);
+        if (!container) return;
+
+        const gd = container.querySelector('div');
+        if (!gd) return;
+
+        Plotly.Plots.resize(gd);
+        resizeFonts(id);
+    });
+});
+</script>
 
 </body>
 </html>

@@ -1,5 +1,6 @@
 import plotly.express as px
 import pandas as pd
+import plotly.io as pio
 
 def common_setting(fig):
     fig.update_xaxes(tickformat="%y/%m/%d")
@@ -11,21 +12,25 @@ def common_setting(fig):
 
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
-        margin=dict(l=5,r=5,t=50,b=20),
-        title_font=dict(size=12),            # タイトル文字サイズ
-        font=dict(size=8),                  # 軸ラベル・凡例などの共通サイズ
+        margin=dict(l=0,r=10,t=50,b=30),
+        #title_font=dict(size=12),            # タイトル文字サイズ
+        #font=dict(size=8),                  # 軸ラベル・凡例などの共通サイズ
         legend=dict(
             visible=True,
             orientation="h",
-            yanchor="bottom",
+            yanchor="top",
             y=1.1,
-            xanchor="center",
-            x=0.75,
-            font=dict(size=8),
-            #tracegroupgap=5,  # trace間のギャップ
+            xanchor="right",
+            x=1,
+            #font=dict(size=8),
         )
     )
     return fig
+
+def write_html(fig):
+    fig_html = pio.to_html(fig, full_html=False, include_plotlyjs='cdn')
+    return fig_html
+
 
 def display_total_assets(df):
     fig = px.line(
