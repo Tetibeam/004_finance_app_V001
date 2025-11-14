@@ -1,4 +1,3 @@
-"""V001
 import sys
 from pathlib import Path
 
@@ -40,19 +39,3 @@ def build_dashboard_graphs(db_path):
     graphs_cache["special_balance"] = viz.write_html(viz.display_special_balance(df_special), "special_balance")
 
     return graphs_cache, graphs_info
-"""
-
-# V002 REST API化
-import pandas as pd
-
-def get_dashboard_data(db_path):
-    # データ取得
-    df = load_data(db_path)
-
-    # JSONに変換しやすい形に整形
-    data = {
-        "x": df["date"].tolist(),
-        "y": df["value"].tolist(),
-        "title": "資産推移"
-    }
-    return data
