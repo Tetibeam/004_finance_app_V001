@@ -13,13 +13,13 @@ def get_asset_and_profit_dashboard(DB_PATH_FINANCE: str):
 
     """
     df_asset = get_df_from_db(
-        DB_PATH_FINANCE, "資産詳細", "date", None, ["資産額","トータルリターン"],"sum",set_index=True
+        DB_PATH_FINANCE, "asset", "date", None, ["資産額","トータルリターン"],"sum",set_index=True
         )
 
     end_date = df_asset.index.max() + pd.DateOffset(months=1)
     where_clause = f"date <= DATE('{end_date}')"
     df_asset_target = get_df_from_db(
-        DB_PATH_FINANCE, "資産目標値", "date", None, ["資産額", "トータルリターン"], "sum", set_index=True,
+        DB_PATH_FINANCE, "target", "date", None, ["資産額", "トータルリターン"], "sum", set_index=True,
         where_clause=where_clause)
 
     df_merged = pd.merge(
@@ -28,7 +28,7 @@ def get_asset_and_profit_dashboard(DB_PATH_FINANCE: str):
 
 def get_balance_dashboard(DB_PATH_FINANCE: str):
     df = get_df_from_db(
-        DB_PATH_FINANCE, "収支詳細", "date", ["収支タイプ", "収支カテゴリー"],["金額", "目標"],
+        DB_PATH_FINANCE, "balance", "date", ["収支タイプ", "収支カテゴリー"],["金額", "目標"],
         "sum", set_index=True
     )
     return df

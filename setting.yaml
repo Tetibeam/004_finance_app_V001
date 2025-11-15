@@ -1,11 +1,6 @@
 project_name: "stock_screening"
 data_path:
   raw: "./data/raw"
-files:
-  raw:
-    資産詳細: "資産詳細.csv"
-    収支詳細: "収支詳細.csv"
-    資産目標値: "資産目標値.csv"
 database_path: "./database"
 database:
   finance: "finance.db"
